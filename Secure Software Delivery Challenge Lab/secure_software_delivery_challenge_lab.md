@@ -67,7 +67,7 @@ gcloud services enable \
   ondemandscanning.googleapis.com \
   binaryauthorization.googleapis.com
 
-![alt text]()
+![alt text](![initialization](https://github.com/user-attachments/assets/490696fe-693b-4e0b-943e-305c1fb4403e))
 mkdir sample-app && cd sample-app
 gcloud storage cp gs://spls/gsp521/* .
 
