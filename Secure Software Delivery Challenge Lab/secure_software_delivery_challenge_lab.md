@@ -1,53 +1,214 @@
-# Secure Software Delivery: Challenge Lab Solution
+# Secure Software Delivery: Challenge Lab Solution and Explanation
 
-This project demonstrates my skills and expertise in securely deploying applications using Google Cloud services. It is based on the **"Secure Software Delivery: Challenge Lab"**, which is part of the **Secure Software Delivery course** by [Cloud Skills Boost](https://www.cloudskillsboost.google) (offered by Google). The project focuses on creating a secure CI/CD pipeline for containerized applications, emphasizing automated builds, vulnerability scanning, signing, and deployment.
+This project is based on the **"Secure Software Delivery: Challenge Lab"**, which is part of the **Secure Software Delivery course** by [Cloud Skills Boost](https://www.cloudskillsboost.google), offered by Google. Below are the tasks from the lab alongside their corresponding solutions and outputs.
 
 ---
 
 ## Table of Contents
 - [Overview](#overview)
-- [Objectives](#objectives)
-- [Key Steps](#key-steps)
-  - [1. Enable APIs and Set Up the Environment](#1-enable-apis-and-set-up-the-environment)
-  - [2. Configure CI/CD Pipeline](#2-configure-cicd-pipeline)
-  - [3. Set Up Binary Authorization](#3-set-up-binary-authorization)
-  - [4. Fix Vulnerabilities and Redeploy](#4-fix-vulnerabilities-and-redeploy)
-- [Outputs and Screenshots](#outputs-and-screenshots)
+- [Challenge Scenario](#challenge-scenario)
+- [Tasks and Solutions](#tasks-and-solutions)
+  - [Task 1: Enable APIs and Set Up the Environment](#task-1-enable-apis-and-set-up-the-environment)
+  - [Task 2: Create a Cloud Build Pipeline](#task-2-create-a-cloud-build-pipeline)
+  - [Task 3: Set Up Binary Authorization](#task-3-set-up-binary-authorization)
+  - [Task 4: Integrate Vulnerability Scanning](#task-4-integrate-vulnerability-scanning)
+  - [Task 5: Fix Vulnerabilities and Redeploy](#task-5-fix-vulnerabilities-and-redeploy)
 - [Conclusion](#conclusion)
 
 ---
 
 ## Overview
-This project involved securely deploying a web application for Cymbal Bank. Since the application handles sensitive customer data, robust security measures were implemented. The pipeline incorporates:
+
+This lab involves securely deploying a web application for **Cymbal Bank**, which handles sensitive customer data. The objective is to implement a secure, automated CI/CD pipeline using tools like:
 - **Artifact Registry**: For storing Docker images.
-- **Binary Authorization**: To enforce signed image deployment.
-- **Cloud Build**: To automate the build, scan, and deployment process.
+- **Cloud Build**: For building and scanning container images.
+- **Binary Authorization**: To enforce strict image deployment policies.
 
-The solution adheres to the standards outlined in the **Secure Software Delivery course**, designed to build practical cloud security skills.
-
----
-
-## Objectives
-The main goals of the project were:
-1. Enable necessary APIs and set up the Google Cloud environment.
-2. Build and push containerized applications to Artifact Registry.
-3. Integrate vulnerability scanning into the CI/CD pipeline.
-4. Configure Binary Authorization for secure deployments.
-5. Identify and fix vulnerabilities, then redeploy.
+Participants are expected to create a pipeline that builds, scans, signs, and deploys a containerized application while adhering to strict security standards.
 
 ---
 
-## Key Steps
+## Challenge Scenario
 
-### 1. Enable APIs and Set Up the Environment
+You are a software engineer at **Cymbal Bank**, tasked with deploying a secure web application. The application handles sensitive customer data, and your goal is to:
+1. Build and push the application to Artifact Registry.
+2. Scan the application for vulnerabilities.
+3. Use Binary Authorization to enforce signed image deployment.
+4. Fix vulnerabilities and redeploy a secure application to **Cloud Run**.
+
+---
+
+## Tasks and Solutions
+
+### Task 1: Enable APIs and Set Up the Environment
+
+#### Lab Task
+Enable the required Google Cloud APIs and create Artifact Registry repositories for storing Docker images.
+
+#### Solution
+Run the following commands to enable APIs and create the required repositories:
 ```bash
 gcloud services enable \
-cloudkms.googleapis.com \
-run.googleapis.com \
-cloudbuild.googleapis.com \
-container.googleapis.com \
-containerregistry.googleapis.com \
-artifactregistry.googleapis.com \
-containerscanning.googleapis.com \
-ondemandscanning.googleapis.com \
-binaryauthorization.googleapis.com
+  cloudkms.googleapis.com \
+  run.googleapis.com \
+  cloudbuild.googleapis.com \
+  container.googleapis.com \
+  containerregistry.googleapis.com \
+  artifactregistry.googleapis.com \
+  containerscanning.googleapis.com \
+  ondemandscanning.googleapis.com \
+  binaryauthorization.googleapis.com
+
+mkdir sample-app && cd sample-app
+gcloud storage cp gs://spls/gsp521/* .
+
+gcloud artifacts repositories create artifact-scanning-repo \
+  --repository-format=docker \
+  --location=$REGION \
+  --description="Scanning repository"
+
+gcloud artifacts repositories create artifact-prod-repo \
+  --repository-format=docker \
+  --location=$REGION \
+  --description="Production repository"
+```
+
+**Output**:  
+Attach a screenshot or paste the output from enabling APIs and creating repositories.  
+![Enable APIs Output](path/to/enable-apis-output.png)
+
+---
+
+### Task 2: Create a Cloud Build Pipeline
+
+#### Lab Task
+Build a Docker image for the application, push it to the Artifact Registry, and verify vulnerabilities.
+
+#### Solution
+Here’s the `cloudbuild.yaml` configuration for building and pushing the image:
+```yaml
+steps:
+  - id: "build"
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', '${REGION}-docker.pkg.dev/${PROJECT_ID}/artifact-scanning-repo/sample-image', '.']
+  - id: "push"
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '${REGION}-docker.pkg.dev/${PROJECT_ID}/artifact-scanning-repo/sample-image']
+images:
+  - ${REGION}-docker.pkg.dev/${PROJECT_ID}/artifact-scanning-repo/sample-image
+```
+Submit the build using:
+```bash
+gcloud builds submit
+```
+
+**Output**:  
+Attach the Cloud Build logs showing a successful build and vulnerabilities found during scanning.  
+![Cloud Build Logs](path/to/cloud-build-logs.png)
+
+---
+
+### Task 3: Set Up Binary Authorization
+
+#### Lab Task
+Configure Binary Authorization to enforce signed image deployment.
+
+#### Solution
+1. Create an attestor and configure its note:
+    ```bash
+    cat > ./vulnerability_note.json << EOM
+    {
+      "attestation": {
+        "hint": {
+          "human_readable_name": "Container Vulnerabilities attestation authority"
+        }
+      }
+    }
+    EOM
+
+    NOTE_ID=vulnerability_note
+    curl -X POST -H "Content-Type: application/json" --data-binary @./vulnerability_note.json \
+    "https://containeranalysis.googleapis.com/v1/projects/${PROJECT_ID}/notes/?noteId=${NOTE_ID}"
+    ```
+
+2. Set up Binary Authorization:
+    ```bash
+    gcloud container binauthz attestors create vulnerability-attestor \
+      --attestation-authority-note=$NOTE_ID \
+      --attestation-authority-note-project=${PROJECT_ID}
+    ```
+
+**Screenshot**:  
+Include a screenshot of the Binary Authorization policy or configuration.  
+![Binary Authorization Policy](path/to/binary-auth-policy.png)
+
+---
+
+### Task 4: Integrate Vulnerability Scanning
+
+#### Lab Task
+Enhance the pipeline with vulnerability scanning and enforce policy rules.
+
+#### Solution
+Update `cloudbuild.yaml` to include scanning and attestation:
+```yaml
+steps:
+  - id: scan
+    name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'artifacts docker images scan ${REGION}-docker.pkg.dev/${PROJECT_ID}/artifact-scanning-repo/sample-image --location=$REGION'
+  - id: 'create-attestation'
+    name: 'gcr.io/${PROJECT_ID}/binauthz-attestation:latest'
+    args:
+      - '--artifact-url'
+      - '${REGION}-docker.pkg.dev/${PROJECT_ID}/artifact-scanning-repo/sample-image'
+      - '--attestor'
+      - 'projects/${PROJECT_ID}/attestors/vulnerability-attestor'
+```
+
+**Output**:  
+Include logs from the scanning and attestation process.  
+![Vulnerability Scanning Logs](path/to/vulnerability-scan.png)
+
+---
+
+### Task 5: Fix Vulnerabilities and Redeploy
+
+#### Lab Task
+Identify and resolve vulnerabilities, then redeploy the pipeline.
+
+#### Solution
+1. Update the `Dockerfile` to resolve vulnerabilities:
+    ```Dockerfile
+    FROM python:3.8-alpine
+
+    WORKDIR /app
+    COPY . ./
+    RUN pip3 install Flask==3.0.3 gunicorn==23.0.0 Werkzeug==3.0.4
+
+    CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 main:app
+    ```
+
+2. Redeploy the pipeline:
+    ```bash
+    gcloud builds submit
+    ```
+
+**Screenshot**:  
+Attach a screenshot of the successful build and deployment to Cloud Run.  
+![Redeployment Success](path/to/redeployment-success.png)
+
+---
+
+## Conclusion
+
+This project demonstrates the ability to:
+- Implement secure CI/CD pipelines using Google Cloud.
+- Detect and remediate vulnerabilities.
+- Enforce deployment of trusted images with Binary Authorization.
+
+The lab is part of the **Secure Software Delivery course** on [Cloud Skills Boost by Google](https://www.cloudskillsboost.google).
+
+---
+
+*Project By:* **Sepideh Niktabe**
