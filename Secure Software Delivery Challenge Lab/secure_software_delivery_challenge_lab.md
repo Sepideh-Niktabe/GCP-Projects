@@ -19,18 +19,17 @@ This project is based on the **"Secure Software Delivery: Challenge Lab"**, whic
 
 ## Overview
 
-This lab involves securely deploying a web application for **Cymbal Bank**, which handles sensitive customer data. The objective is to implement a secure, automated CI/CD pipeline using tools like:
-- **Artifact Registry**: For storing Docker images.
-- **Cloud Build**: For building and scanning container images.
+This lab focuses on securely deploying a web application for **Cymbal Bank**, which handles sensitive customer data. The goal is to implement a secure, automated CI/CD pipeline that builds, scans, signs, and deploys containerized applications while ensuring compliance with strict security standards. Key tools include:  
+
+- **Artifact Registry**: For storing Docker images.  
+- **Cloud Build**: For building and scanning container images.  
 - **Binary Authorization**: To enforce strict image deployment policies.
-
-Participants are expected to create a pipeline that builds, scans, signs, and deploys a containerized application while adhering to strict security standards.
-
 ---
 
 ## Challenge Scenario
 
-You are a software engineer at **Cymbal Bank**, tasked with deploying a secure web application. The application handles sensitive customer data, and your goal is to:
+
+As software engineers at **Cymbal** Bank, we are responsible for deploying a secure web application that handles sensitive customer data. Our objectives are to:
 1. Build and push the application to Artifact Registry.
 2. Scan the application for vulnerabilities.
 3. Use Binary Authorization to enforce signed image deployment.
@@ -46,6 +45,15 @@ You are a software engineer at **Cymbal Bank**, tasked with deploying a secure w
 Enable the required Google Cloud APIs and create Artifact Registry repositories for storing Docker images.
 
 #### Solution
+At the beginning of the lab, determine the **region** provided in the lab instructions and enter it when prompted. Run the following commands to enable APIs and create the required repositories:
+
+```bash
+echo "Please set the below values correctly"
+read -p "Enter the REGION (as provided in the lab instructions): " REGION
+```
+```bash
+export REGION
+```
 Run the following commands to enable APIs and create the required repositories:
 ```bash
 gcloud services enable \
@@ -59,6 +67,7 @@ gcloud services enable \
   ondemandscanning.googleapis.com \
   binaryauthorization.googleapis.com
 
+![alt text]()
 mkdir sample-app && cd sample-app
 gcloud storage cp gs://spls/gsp521/* .
 
