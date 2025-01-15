@@ -38,11 +38,6 @@ In this lab, you will:
 #### Step 1: Set Project Variables
 
 ```bash
-echo "Please set the below values correctly"
-read -p "Enter the REGION (as provided in the lab instructions): " REGION
-export REGION=lab_region
-export ZONE=lab_zone
-
 # Configure gcloud settings
 gcloud config set compute/region $REGION
 gcloud config set compute/zone $ZONE
