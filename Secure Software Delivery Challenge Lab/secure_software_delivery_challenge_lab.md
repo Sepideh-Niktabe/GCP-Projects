@@ -123,7 +123,11 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} --member="serviceAccount:${
 ![My Image](/Secure%20Software%20Delivery%20Challenge%20Lab/images/rule1.jpg)
 
 
+<<<<<<< HEAD
 ![My Image](/Secure%20Software%20Delivery%20Challenge%20Lab/images/rule2.jpg)
+=======
+![My Image](/Secure%20Software%20Delivery%20Challenge%20Lab/images/initialization_2.jpg)
+>>>>>>> 1ffb1d7 (modified .md file)
 
 ```bash
 
