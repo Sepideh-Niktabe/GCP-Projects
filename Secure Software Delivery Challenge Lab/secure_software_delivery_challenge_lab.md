@@ -454,12 +454,12 @@ EOF
 
 2. Redeploy the pipeline:
 
-    ```bash
-    gcloud builds submit
-    ```
-    ```bash
-    gcloud beta run services add-iam-policy-binding --region=$REGION --member=allUsers --role=roles/run.invoker auth-service
-    ```
+  ```bash
+  gcloud builds submit
+  ```
+  ```bash
+  gcloud beta run services add-iam-policy-binding --region=$REGION --member=allUsers --role=roles/run.invoker auth-service
+  ```
 
 ---
 
