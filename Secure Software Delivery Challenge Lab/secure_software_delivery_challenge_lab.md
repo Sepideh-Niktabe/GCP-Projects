@@ -79,15 +79,15 @@ gcloud services enable \
 ```
 ![My Image](/Secure%20Software%20Delivery%20Challenge%20Lab/images/Task1_1.jpg)
 
-<<<<<<< HEAD
-![alt text](![initialization](https://github.com/user-attachments/assets/490696fe-693b-4e0b-943e-305c1fb4403e))
-=======
+<!-- ![alt text](![initialization](https://github.com/user-attachments/assets/490696fe-693b-4e0b-943e-305c1fb4403e)) -->
+
 ```bash
->>>>>>> 5c1c575 (modified .md file)
 mkdir sample-app && cd sample-app
 gcloud storage cp gs://spls/gsp521/* .
 ```
 ![My Image](/Secure%20Software%20Delivery%20Challenge%20Lab/images/Task1_2.jpg)
+
+
 ```bash
 gcloud artifacts repositories create artifact-scanning-repo \
   --repository-format=docker \
@@ -102,7 +102,7 @@ gcloud artifacts repositories create artifact-prod-repo \
 
 ![My Image](/Secure%20Software%20Delivery%20Challenge%20Lab/images/Task1_3.jpg)
 
----
+
 
 ### Task 2: Create a Cloud Build Pipeline
 
@@ -111,7 +111,19 @@ Build a Docker image for the application, push it to the Artifact Registry, and 
 
 
 #### Solution
-Here’s the `cloudbuild.yaml` configuration for building and pushing the image:
+
+```bash
+gcloud auth configure-docker $REGION-docker.pkg.dev
+
+gcloud projects add-iam-policy-binding ${PROJECT_ID} --member="serviceAccount:${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com" --role="roles/iam.serviceAccountUser"
+ 
+gcloud projects add-iam-policy-binding ${PROJECT_ID} --member="serviceAccount:${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com" --role="roles/ondemandscanning.admin"
+
+```
+![My Image](/Secure%20Software%20Delivery%20Challenge%20Lab/images/rule1.jpg)
+
+
+![My Image](/Secure%20Software%20Delivery%20Challenge%20Lab/images/rule2.jpg)
 
 ```bash
 
