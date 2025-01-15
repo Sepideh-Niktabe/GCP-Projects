@@ -201,7 +201,7 @@ gcloud compute forwarding-rules create http-content-rule \
 ![My Image](/Networking%20Fundamentals%20on%20Google%20Cloud%20Challenge%20Lab/images/Task3_4.jpg)
 ![My Image](/Networking%20Fundamentals%20on%20Google%20Cloud%20Challenge%20Lab/images/Task3_5.jpg)
 ![My Image](/Networking%20Fundamentals%20on%20Google%20Cloud%20Challenge%20Lab/images/Task3_6.jpg)
-![My Image](/Networking%20Fundamentals%20on%20Google%20Cloud%20Challenge%20Lab/images/Task3_7.jpg)
+![My Image](/Networking%20Fundamentals%20on%20Google%20Cloud%20Challenge%20Lab/images/Task3-7.jpg)
 ## Conclusion
 
 This lab demonstrated how to:
