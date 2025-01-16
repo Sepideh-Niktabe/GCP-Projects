@@ -43,10 +43,10 @@ Create a VPC network named `$VPC_NAME` with two subnets `$SUBNET_A` and `$SUBNET
 #### Solution
 
 
-# Create VPC Network
+### Create VPC Network
 ![My Image](/Set%20Up%20a%20Google%20Cloud%20Network%20Challenge%20Lab/images/Task1_1.jpg)
 
-# Create Subnets
+### Create Subnets
 
 ![My Image](/Set%20Up%20a%20Google%20Cloud%20Network%20Challenge%20Lab/images/Task1_2.jpg)
 
@@ -73,13 +73,13 @@ Launch two VMs `$VM_1` and `$VM_2` in `$ZONE_1` and `$ZONE_2`, respectively.
 
 #### Solution
 
-# Create VM 1
+### Create VM 1
 ![My Image](/Set%20Up%20a%20Google%20Cloud%20Network%20Challenge%20Lab/images/Task3_1.jpg)
 
 
 ![My Image](/Set%20Up%20a%20Google%20Cloud%20Network%20Challenge%20Lab/images/Task3_2.jpg)
 
-# Create VM 2
+### Create VM 2
 
 ![My Image](/Set%20Up%20a%20Google%20Cloud%20Network%20Challenge%20Lab/images/Task3_3.jpg)
 
