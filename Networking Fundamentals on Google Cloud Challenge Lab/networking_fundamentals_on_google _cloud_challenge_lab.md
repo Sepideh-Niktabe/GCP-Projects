@@ -41,6 +41,7 @@ In this lab, you will:
 # Configure gcloud settings
 gcloud config set compute/region $REGION
 gcloud config set compute/zone $ZONE
+
 ```
 ![My Image](/Networking%20Fundamentals%20on%20Google%20Cloud%20Challenge%20Lab/images/Task1_1.jpg)
 #### Step 2: Create Web Servers
