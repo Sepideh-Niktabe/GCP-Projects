@@ -1,6 +1,6 @@
 
 
-![My Image](/images/Google_Cloud_logo.svg.png)
+<img src="images/Google_Cloud_Platform-Logo.wine.png" alt="Google Cloud Logo" width="300"/>
 
 
 # GCP Projects
