@@ -1,6 +1,6 @@
 
 
-<img src="images/Google_Cloud_Platform-Logo.wine.png" alt="Google Cloud Logo" width="300"/>
+<img src="images/Google_Cloud_Platform-Logo.wine.png" alt="Google Cloud Logo" width="400"/>
 
 
 # GCP Projects
