@@ -89,7 +89,7 @@ Launch two VMs `$VM_1` and `$VM_2` in `$ZONE_1` and `$ZONE_2`, respectively.
 ![My Image](/Set%20Up%20a%20Google%20Cloud%20Network%20Challenge%20Lab/images/Task3_5.jpg)
 ---
 
-# Test Connectivity Between VMs
+### Test Connectivity Between VMs
 
 #### Lab Task
 Verify that the VMs can successfully communicate with each other and measure the latency between instances across all regions.
