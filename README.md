@@ -1,6 +1,6 @@
 
 
-![My Image](/images/Google_Cloud_Platform-Logo.wine.png)
+<img src="images/Google_Cloud_Platform-Logo.wine.png" alt="Google Cloud Logo" width="300"/>
 # GCP Projects
 This repository contains solutions and documentation for various **Google Cloud Platform (GCP) challenge labs**. The goal is to provide detailed, step-by-step guides to help others understand and complete GCP challenge labs effectively.
 
@@ -18,7 +18,6 @@ More labs will be added in the future as I progress through additional GCP chall
 This repository aims to:
 1. Help others learn and navigate GCP challenge labs.
 2. Provide detailed documentation for future reference.
-3. Serve as a portfolio of my GCP learning journey.
 
 ## Repository Structure
 
